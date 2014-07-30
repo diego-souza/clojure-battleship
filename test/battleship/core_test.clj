@@ -11,23 +11,18 @@
 
 (deftest calculating-positions
   (testing "Calculation of positions based on starting position size and direction"
-    (let [pos [1 1]
-          size 2
-          north (calculate-coords pos size :north)
-          south (calculate-coords pos size :south)
-          east  (calculate-coords pos size :east)
-          west  (calculate-coords pos size :west)]
-      (is (= north #{[1 0] [1 1]}))
-      (is (= south #{[1 2] [1 1]}))
-      (is (= east  #{[2 1] [1 1]}))
-      (is (= west  #{[0 1] [1 1]})))))
-
+    (are [direction, coords]
+         (= (calculate-coords [1 1] 2 direction) coords)
+         :north #{[1 0] [1 1]}
+         :south #{[1 2] [1 1]}
+         :east  #{[2 1] [1 1]}
+         :west  #{[0 1] [1 1]})))
 
 (deftest placing-ships
   (testing "Placing ships on the board"
-    (let [g (make-game)
-          g-with-ship (place-ship g :player1 [1 1] 2 :north)]
-      (is (= #{[1 1] [1 0]} (-> g-with-ship :player1 :ships))))))
+    (let [g (-> (make-game)
+                (place-ship :player1 [1 1] 2 :north))]
+      (is (= #{[1 1] [1 0]} (-> g :player1 :ships))))))
 
 (deftest shooting
   (testing "Shoting targets"
