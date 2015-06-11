@@ -22,11 +22,6 @@
       (println (apply str (map #(str %1 "          " %2 "\n") p1-name p2-name)))
      )))
 
-(defn get-play [game player]
-  (let [x (do (println "X:") (Integer/parseInt (read-line)))
-        y (do (println "Y:") (Integer/parseInt (read-line)))]
-    (c/shoot game player [x y])))
-
 (def current-game (atom (generate-game)))
 
 (defn -main [& args]

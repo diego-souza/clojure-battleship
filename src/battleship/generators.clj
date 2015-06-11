@@ -29,3 +29,10 @@
   (-> (c/make-game)
       (generate-ships :player1 [1 1 2 2 3 4 5])
       (generate-ships :player2 [1 1 2 2 3 4 5])))
+
+(defn get-play [game player]
+  (let [x (do (println "X:") (Integer/parseInt (read-line)))
+        y (do (println "Y:") (Integer/parseInt (read-line)))]
+    (if (can-shoot? game player [x y])
+      (c/shoot game player [x y])
+      (get-play game player))))
