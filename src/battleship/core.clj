@@ -47,18 +47,3 @@
 (defn winner [g]
   (when (game-over? g)
     (if (player-dead? g :player1) :player2 :player1)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
