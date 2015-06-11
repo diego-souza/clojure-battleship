@@ -8,8 +8,8 @@
 
 
 (defn draw-game [game]
-  (let [p1-board   (create-board game :player1 false)
-        p2-board   (create-board game :player2 true)
+  (let [p1-board   (apply mapv vector (create-board game :player1 false)) 
+        p2-board   (apply mapv vector (create-board game :player2 true))
         p1-string  (map #(s/join border %) p1-board)
         p2-string  (map #(s/join border %) p2-board)
         p1-ycoords (map str (map #(str % "  ") (range 10)) p1-string)
