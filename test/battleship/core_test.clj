@@ -7,7 +7,8 @@
     (let [g (make-game)
           initial-state {:ships #{} :shots #{}}]
       (is (= g {:player1 initial-state
-                :player2 initial-state})))))
+                :player2 initial-state
+                :current-player :player1})))))
 
 (deftest calculating-positions
   (testing "Calculation of positions based on starting position size and direction"
@@ -30,6 +31,11 @@
                 (shoot :player1 [1 1]))]
       (is (= #{[1 1]} (-> g :player1 :shots))))))
 
+(deftest ending-turn
+  (testing "Ending turn"
+    (let [g (-> (make-game)
+                (end-turn))]
+      (is (= :player2 (g :current-player))))))
 
 (deftest game-over
   (testing "When game is over"
@@ -38,12 +44,12 @@
                 (place-ship :player2 [0 0] 1 :north)
                 (shoot      :player1 [0 0]))]
       (is (= (game-over? g) true))))
-    (testing "When game is over"
+
+  (testing "When game is over"
     (let [g (-> (make-game)
                 (place-ship :player1 [0 0] 1 :north)
                 (place-ship :player2 [0 0] 1 :north))]
       (is (= (game-over? g) false)))))
-
 
 (deftest asking-for-winner
   (testing "Who is the winning player - game over"

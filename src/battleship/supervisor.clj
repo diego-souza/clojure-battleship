@@ -18,5 +18,6 @@
 (defn can-shoot? [game player pos]
   (let [shots              (-> game player :shots)
         new-target?        (not (contains? shots pos))
-        can?               (and (inside-board? pos) new-target?)]
+        current-player?    (= (game :current-player) player)
+        can?               (and current-player? (inside-board? pos) new-target?)]
     can?))

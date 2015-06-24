@@ -34,8 +34,7 @@
   (while (not (i/game-over? @current-game))
     (do
       (draw-game @current-game)
-      (swap! current-game gen/generate-play :player2)
-      (swap! current-game gen/generate-play :player1)
+      (swap! current-game gen/generate-play (@current-game :current-player))
     ))
   (do
     (draw-game @current-game)

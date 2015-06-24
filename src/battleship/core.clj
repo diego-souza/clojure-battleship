@@ -5,7 +5,8 @@
 (defn make-game []
   (let [initial-state {:ships #{} :shots #{}}]
     {:player1 initial-state
-     :player2 initial-state}))
+     :player2 initial-state
+     :current-player :player1}))
 
 (defn delta [direction]
   (case direction
@@ -33,6 +34,10 @@
          new-shots  (conj shots pos)
          new-game   (assoc-in game [player :shots] new-shots)]
      new-game))
+
+(defn end-turn [game]
+  (let [next-player (if (= (game :current-player) :player1) :player2 :player1)]
+  (assoc game :current-player next-player)))
 
 (defn player-dead? [g player]
   (let [ships (-> g player :ships)

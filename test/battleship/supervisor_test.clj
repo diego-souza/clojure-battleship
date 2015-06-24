@@ -73,4 +73,8 @@
            [-1 -1]
            [10 4]
            [4 10]
-           [10 10]))))
+           [10 10])))
+
+  (testing "shooting without being current-player"
+    (let [g (c/make-game)]
+      (is (= false (can-shoot? g :player2 [0 0]))))))

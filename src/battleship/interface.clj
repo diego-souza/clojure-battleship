@@ -31,7 +31,8 @@
 
 (defn make-play [game player coord]
   (if (s/can-shoot? game player coord)
-    (c/shoot game player coord)
+    (-> (c/shoot game player coord)
+        (c/end-turn))
     nil))
 
 (defn place-ship [game player pos size direction]
