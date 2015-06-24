@@ -6,4 +6,4 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [seesaw "1.4.4"]
                  [quickie "0.2.5"]]
-  :main battleship.repl)
+  :main battleship.gui)

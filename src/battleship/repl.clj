@@ -1,15 +1,13 @@
 (ns battleship.repl
-  (:require [battleship.vec :as vec])
-  (:require [battleship.core :as c])
-  (:require [battleship.interface :refer :all])
-  (:require [battleship.generators :refer :all])
-  (:require [clojure.set :as set])
+  (:require [battleship.interface :as i])
+  (:require [battleship.generators :as gen])
   (:require [clojure.string :as s]))
 
+(def border "  ")
 
 (defn draw-game [game]
-  (let [p1-board   (apply mapv vector (create-board game :player1 false)) 
-        p2-board   (apply mapv vector (create-board game :player2 true))
+  (let [p1-board   (apply mapv vector (i/create-board game :player1 false)) 
+        p2-board   (apply mapv vector (i/create-board game :player2 true))
         p1-string  (map #(s/join border %) p1-board)
         p2-string  (map #(s/join border %) p2-board)
         p1-ycoords (map str (map #(str % "  ") (range 10)) p1-string)
@@ -22,16 +20,24 @@
       (println (apply str (map #(str %1 "          " %2 "\n") p1-name p2-name)))
      )))
 
-(def current-game (atom (generate-game)))
+(defn get-play [game player]
+  (let [x (do (println "X:") (Integer/parseInt (read-line)))
+        y (do (println "Y:") (Integer/parseInt (read-line)))
+        new-game (i/make-play game player [x y])]
+    (if new-game
+      new-game
+      (recur game player))))
+
+(def current-game (atom (gen/generate-game)))
 
 (defn -main [& args]
-  (while (not (c/game-over? @current-game))
+  (while (not (i/game-over? @current-game))
     (do
       (draw-game @current-game)
-      (swap! current-game get-play :player2)
-      (swap! current-game generate-play :player1)
+      (swap! current-game gen/generate-play :player2)
+      (swap! current-game gen/generate-play :player1)
     ))
   (do
     (draw-game @current-game)
-    (println "Winner: " (c/winner @current-game))
+    (println "Winner: " (i/winner @current-game))
     ))
