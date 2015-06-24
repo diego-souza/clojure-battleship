@@ -30,11 +30,16 @@
 
 (def current-game (atom (gen/generate-game)))
 
+(defn play [player]
+  (if (= player :player2)
+    get-play
+    gen/generate-play))
+
 (defn -main [& args]
   (while (not (i/game-over? @current-game))
     (do
       (draw-game @current-game)
-      (swap! current-game gen/generate-play (@current-game :current-player))
+      (swap! current-game (play (@current-game :current-player)) (@current-game :current-player))
     ))
   (do
     (draw-game @current-game)
